@@ -1,0 +1,12 @@
+.settings/
+target/
+.classpath
+.project
+.rules
+*.log
+.idea/
+*.iml
+/src/test/
+.sass-cache/
+.DS_Store
+

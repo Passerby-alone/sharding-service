@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.sharding.mapper.UserMapper">
+
+    <resultMap id="baseResultMap" type="com.my.sharding.entity.User">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="addUser">
+        INSERT INTO user (
+          id, username, password
+        )
+        VALUES (
+        #{id,jdbcType=INTEGER},
+        #{username,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <select id="selectUserById" resultMap="baseResultMap">
+        select u.* from user u where u.id = #{id}
+    </select>
+
+    <select id="list" parameterType="java.lang.Integer" resultMap="baseResultMap">
+        SELECT u.* FROM user u
+    </select>
+
+    <update id="updateUser" parameterType="com.my.sharding.entity.User">
+        update user set username = #{username}, password = #{username} where id = #{id}
+    </update>
+    
+    <select id="getUser" parameterType="com.my.sharding.entity.User" resultMap="baseResultMap">
+        select u.* from user u
+        <where>
+            <if test="id != null">
+                u.id = #{id}
+            </if>
+            <if test="username != null">
+                u.username = #{username}
+            </if>
+        </where>
+    </select>
+
+</mapper>
